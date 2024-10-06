@@ -1,0 +1,55 @@
+#q1
+#load data
+data = iris
+
+#load library
+library(rpart)
+library(rpart.plot)
+library(rattle)
+
+#SHUFFLING
+ind = sample(1:nrow(data), size = 0.9*nrow(data), replace = FALSE)
+
+#creating training data
+train_data = data[ind,]
+
+#creating test data
+test_data = data[-ind,]
+
+#creating model
+model = rpart(train_data$Species~., data = train_data)
+
+fancyRpartPlot(model)
+
+#q2
+#load data
+data = iris
+
+#load library
+library(rpart)
+library(rpart.plot)
+library(rattle)
+
+#SHUFFLING
+ind = sample(1:nrow(data), size = 0.9*nrow(data), replace = FALSE)
+
+#creating training data
+train_data = data[ind,]
+
+#creating test data
+test_data = data[-ind,]
+
+#creating model
+model = rpart(train_data$Species~., data = train_data, minsplit = 2, minbucket = 3, cp = 0.09)
+
+#plotting the tree
+fancyRpartPlot(model)
+
+#prediction
+result = predict(model, test_data)
+
+round(result, digits=0)
+
+predictions = predict(model, test_data, type = "class")
+
+matrix = table(test_data$Species, predictions)
