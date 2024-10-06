@@ -1,0 +1,35 @@
+#q1
+#load library
+library(arules)
+
+#loading data as  a list
+data = list(c('A','B','C'), c('A','B','D','E','F'), 
+            c('A','E','F'), c('B','C','D'), c('A','B','C','D','E'), 
+            c('A','B','E'), c('A','B','C','D','P','Q'), c('B','C','D'), 
+            c('A','B','C','D'), c('A','B','C','L','M','N'), c('A','B','C','D'))
+
+#converting it into transaction
+data = as(data,'transactions')
+
+#getting the summary of the data
+summary(data)
+
+#plotting the frequency of each item
+itemFrequencyPlot(data)
+
+#make the rules
+rules = apriori(data, parameter = list(supp=0.3, conf=0.8))
+
+#displays the rules
+inspect(rules)
+
+#q2
+#load library
+library(arules)
+
+#loading data as  a list
+data = Groceries
+
+rules = apriori(data, parameter = list(supp=0.03, conf=0.8))
+
+inspect(rules)
