@@ -1,0 +1,137 @@
+#q1
+#passing adjaceny matrix directly
+
+#load data
+data = read.csv("prac.csv")
+
+#remove the 1st column
+data = data [,-1]
+
+#finding the distance matrix
+dist_mat = as.dist(data)
+
+#loading library
+library(cluster)
+
+#make the model
+model = hclust(dist_mat, method="average")
+
+#plotting the dendogram
+plot(model, hang = -1)
+
+#tells which point merged when and wio=th whom
+model$merge
+
+#tells the height at which each cluster was formed
+model$height
+
+#using cutree you can find any number of clusters in the dendogram
+three = cutree(model,3)
+four = cutree(model,4)
+
+#loading library
+#sparcl package is for coloured dendogram
+library(sparcl)
+
+#to make coloured dendogram
+ColorDendrogram(model, three, branchlength = 10)
+
+#q2
+#load data
+data = read.csv("prac2.csv")
+
+#remove the 1st column
+data = data[,-1]
+
+dist_mat = dist(data, method = "manhattan")
+
+#loading library
+library(cluster)
+
+#make the model
+model = hclust(dist_mat, method="average")
+
+#plotting the dendogram
+plot(model, hang = -1)
+
+#tells which point merged when and with whom
+model$merge
+
+#tells the height at which each cluster was formed
+model$height
+
+#using cutree you can find any number of clusters in the dendogram
+three = cutree(model,3)
+four = cutree(model,4)
+
+#loading library
+#sparcl package is for coloured dendogram
+library(sparcl)
+
+#to make coloured dendogram
+ColorDendrogram(model, three, branchlength = 10)
+
+#q3
+#load data
+data = read.csv("Mall_Customers.csv")
+
+#we normalise data so that the decision is not based particularly on one attributes only
+#normalize function
+normalise = function(x)
+{
+  return ((x-min(x))/(max(x)-min(x)))
+}
+
+#normalising age
+data$Age = normalise(data$Age)
+
+#normalising Annual Income (k$)
+data$Annual.Income..k.. = normalise(data$Annual.Income..k..)
+
+#normalising Spending Score (1-100)
+data$Spending.Score..1.100. = normalise(data$Spending.Score..1.100.)
+
+data = data[,-1]
+data = data[,-1]
+
+dist_mat = dist(data, method = "manhattan")
+
+#loading library
+library(cluster)
+
+#make the model
+model = hclust(dist_mat, method="average")
+
+#plotting the dendogram
+plot(model, hang = -1)
+
+#tells which point merged when and with whom
+model$merge
+
+#tells the height at which each cluster was formed
+model$height
+
+#using cutree you can find any number of clusters in the dendogram
+three = cutree(model,3)
+
+#loading library
+#sparcl package is for coloured dendogram
+library(sparcl)
+
+#to make coloured dendogram
+ColorDendrogram(model, three, branchlength = 10)
+
+# Assuming `three` contains the cluster assignments
+data$Cluster = three
+
+# Load the original data to maintain consistency with the original format
+original_data = read.csv("Mall_Customers.csv")
+
+# Add the cluster information to the original data frame
+# Ensure the order matches
+original_data$Cluster = data$Cluster
+
+# Save the updated data frame to a new CSV file
+write.csv(original_data, "Mall_Customers_with_Clusters.csv", row.names = FALSE)
+
+newdata = read.csv("Mall_Customers_with_Clusters.csv")
